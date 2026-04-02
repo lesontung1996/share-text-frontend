@@ -1,17 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
+export const SOCKET_EVENTS = {
+  ROOM_JOINED: 'room:joined',
+  ROOM_LEFT: 'room:left',
+  MESSAGE_NEW: 'message:new',
+};
+
+type EventTypes = typeof SOCKET_EVENTS[keyof typeof SOCKET_EVENTS];
+
 @Injectable({
   providedIn: 'root',
 })
 export class WebsocketService {
   constructor(private socket: Socket) {}
 
-  sendMessage(msg: string) {
-    this.socket.emit('message', msg); // Emit event to server
+  sendMessage(key: EventTypes, msg: unknown) {
+    this.socket.emit(key, msg);
   }
 
-  getMessages() {
-    return this.socket.fromEvent<string>('message'); // Listen for event from server
+  getMessages<T>(key: EventTypes) {
+    return this.socket.fromEvent<T>(key)
   }
 }
