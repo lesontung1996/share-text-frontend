@@ -5,6 +5,7 @@ export const SOCKET_EVENTS = {
   ROOM_JOINED: 'room:joined',
   ROOM_LEFT: 'room:left',
   MESSAGE_NEW: 'message:new',
+  AUTH: 'authenticate',
 };
 
 type EventTypes = typeof SOCKET_EVENTS[keyof typeof SOCKET_EVENTS];
@@ -13,7 +14,20 @@ type EventTypes = typeof SOCKET_EVENTS[keyof typeof SOCKET_EVENTS];
   providedIn: 'root',
 })
 export class WebsocketService {
-  constructor(private socket: Socket) {}
+  constructor(private socket: Socket) {
+    this.socket.fromEvent(SOCKET_EVENTS.AUTH).subscribe((data) => {
+      console.log('Authentication successful:', data);
+      const {sessionToken} = data as { sessionToken: string };
+      if (sessionToken) {
+        sessionStorage.setItem('sessionToken', sessionToken);
+      }
+    });
+  }
+
+  authenticate(roomCode: string) {
+    const sessionToken = sessionStorage.getItem('sessionToken');
+    this.socket.emit(SOCKET_EVENTS.AUTH, { roomCode, sessionToken });
+  }
 
   sendMessage(key: EventTypes, msg: unknown) {
     this.socket.emit(key, msg);

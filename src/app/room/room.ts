@@ -20,6 +20,7 @@ export class Room implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.roomCode.set(params['roomCode']);
     });
+    this.websocketService.authenticate(this.roomCode());
   }
 
   ngOnInit() {
