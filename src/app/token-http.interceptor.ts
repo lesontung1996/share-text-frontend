@@ -16,7 +16,7 @@ const SESSION_TOKEN_KEY = 'sessionToken';
 
 export const addTokensInterceptor: HttpInterceptorFn = ( req, next, ) => {
   const creatorToken = localStorage.getItem(CREATOR_TOKEN_KEY);
-  const sessionToken = sessionStorage.getItem(SESSION_TOKEN_KEY);
+  const sessionToken = localStorage.getItem(SESSION_TOKEN_KEY);
 
   let headers = req.headers;
   if (creatorToken) {
@@ -37,7 +37,7 @@ export const addTokensInterceptor: HttpInterceptorFn = ( req, next, ) => {
         localStorage.setItem(CREATOR_TOKEN_KEY, newCreatorToken);
       }
       if (newSessionToken) {
-        sessionStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+        localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
       }
     }
   }));

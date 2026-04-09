@@ -1,2 +1,26 @@
-<textarea name="text" id="text" [(ngModel)]="textInput" placeholder="Enter your message"></textarea>
-<button (click)="createRoom()">Create Room</button>
+<div class="home-page">
+  <div class="home-content">
+    <div class="home-heading text-center space-y-4">
+      <h1 class="home-title">Share Text <span class="text-brand-700">Instantly</span></h1>
+      <p class="home-subtitle">A free online real-time text sharing tool. Paste below to start sharing! Others can join and collaborate - no account required.</p>
+    </div>
+
+    <div class="home-card">
+      <textarea
+        class="home-textarea"
+        name="text"
+        id="text"
+        [(ngModel)]="textInput"
+        placeholder="Type your message here…"
+        rows="6"
+      ></textarea>
+
+      <div class="home-actions">
+        <button class="btn-primary" (click)="createRoom()">
+          Create Room
+          <span class="btn-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,17 @@
 <div class="app-shell">
   <header class="app-header">
-    <div class="brand">
-      <p class="brand-subtitle">Digital Atrium</p>
+    <a routerLink="/" class="brand">
       <h2 class="brand-title">Share Text</h2>
+    </a>
+
+    <div class="alias-field">
+      <input
+        class="alias-input"
+        [(ngModel)]="alias"
+        placeholder="Your name…"
+        aria-label="Display name"
+      />
+      <button class="alias-btn" type="button" (click)="updateAlias()">Update</button>
     </div>
 
     <div class="theme-select">
@@ -21,4 +30,7 @@
     </div>
   </header>
 
-<router-outlet />
+  <main class="app-main">
+    <router-outlet />
+  </main>
+</div>

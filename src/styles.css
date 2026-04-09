@@ -2,6 +2,21 @@
 
 @import 'tailwindcss';
 
+@theme {
+  /* Adding a single custom color */
+  --color-brand-50: #f0fdf5;
+  --color-brand-100: #dcfce9;
+  --color-brand-200: #bcf6d5;
+  --color-brand-300: #87eeb4;
+  --color-brand-400: #4cdc8b;
+  --color-brand-500: #24c36a;
+  --color-brand-600: #19aa59;
+  --color-brand-700: #167f45;
+  --color-brand-800: #17643a;
+  --color-brand-900: #155232;
+  --color-brand-950: #052e19;
+}
+
 html {
   /* Theme tokens (default: light) */
   --color-primary: #006948;
@@ -15,6 +30,11 @@ html {
 
   --color-on-surface: #191c1e;
   --color-on-surface-variant: color-mix(in srgb, var(--color-on-surface) 72%, transparent);
+
+  --color-surface-highest: #e8ecee;
+  --color-outline-variant: #c0c8ca;
+  --color-primary-fixed: #b7f1d5;
+  --color-surface-bright: #f7f9fb;
 
   --shadow-ambient: 0 20px 40px rgba(0, 105, 72, 0.06);
   --focus-ring: 0 0 0 2px color-mix(in srgb, var(--color-primary) 50%, transparent);
@@ -57,6 +77,11 @@ html.theme-dark {
 
   --color-on-surface: #dae2fd;
   --color-on-surface-variant: color-mix(in srgb, var(--color-on-surface) 72%, transparent);
+
+  --color-surface-highest: #2d3449;
+  --color-outline-variant: #3d4a42;
+  --color-primary-fixed: #85f8c4;
+  --color-surface-bright: #31394d;
 
   --shadow-ambient: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
   --focus-ring: 0 0 0 2px color-mix(in srgb, var(--color-primary) 35%, transparent);

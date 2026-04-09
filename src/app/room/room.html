@@ -1,7 +1,76 @@
-<p>room works!</p>
-@for (message of messages(); track $index) {
-    <p>{{ message.content }}</p>
-}
+<div class="room-shell">
 
-<textarea name="text" id="text" [(ngModel)]="textInput" placeholder="Enter your message"></textarea>
-<button (click)="newMessage()">Send Message</button>
+  <!-- Room URL Banner -->
+  <div class="room-url-banner">
+    <div class="room-url-inner">
+      <span class="room-url-icon" aria-hidden="true">⬡</span>
+      <span class="room-url-text">{{ roomUrl }}</span>
+    </div>
+    <button
+      class="room-url-copy"
+      [class.copied]="urlCopied()"
+      (click)="copyRoomUrl()"
+      aria-label="Copy room URL"
+    >
+      @if (urlCopied()) {
+        <span>✓ Copied</span>
+      } @else {
+        <span>Copy URL</span>
+      }
+    </button>
+  </div>
+
+  <!-- Message List -->
+  <div class="message-list">
+    @for (message of messages(); track $index) {
+      <div class="bubble-wrap" [class.mine]="isMyMessage(message)">
+        <div class="bubble" [class.bubble-out]="isMyMessage(message)">
+          <div class="bubble-meta">
+            <span class="bubble-alias">{{ message.alias }}</span>
+            <span class="bubble-time">{{ message.created_at | date:'HH:mm' }}</span>
+          </div>
+          <p class="bubble-content">{{ message.content }}</p>
+          <button
+            class="copy-btn"
+            [class.copied]="copiedIndex() === $index"
+            (click)="copyMessage(message.content, $index)"
+            aria-label="Copy message"
+          >
+            @if (copiedIndex() === $index) {
+              ✓ Copied
+            } @else {
+              Copy
+            }
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (messages().length === 0) {
+      <div class="messages-empty">
+        <span class="messages-empty-icon" aria-hidden="true">◈</span>
+        <p>No messages yet. Be the first to say something.</p>
+      </div>
+    }
+  </div>
+
+  <!-- Composer -->
+  <div class="composer">
+    <textarea
+      class="composer-input"
+      [(ngModel)]="textInput"
+      placeholder="Type a message… (Enter to send, Shift+Enter for newline)"
+      rows="1"
+      (keydown)="handleComposerKeydown($event)"
+    ></textarea>
+    <button
+      class="composer-send"
+      (click)="newMessage()"
+      [disabled]="!textInput.trim()"
+      aria-label="Send message"
+    >
+      Send
+    </button>
+  </div>
+
+</div>

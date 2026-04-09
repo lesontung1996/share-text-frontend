@@ -1,0 +1,120 @@
+.home-page {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-6);
+  overflow: hidden;
+}
+
+/* Atrium breadcrumb watermark */
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.home-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.home-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-on-surface);
+}
+
+.home-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-on-surface-variant);
+}
+
+/* Hero card */
+.home-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: var(--color-surface-low);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-ambient);
+}
+
+/* Hero textarea */
+.home-textarea {
+  width: 100%;
+  background: var(--color-surface-highest);
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-on-surface);
+  resize: vertical;
+  min-height: 180px;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.home-textarea::placeholder {
+  color: var(--color-on-surface-variant);
+}
+
+.home-textarea:focus {
+  box-shadow: var(--focus-ring);
+}
+
+/* Actions row */
+.home-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Primary gradient button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.75rem 1.75rem;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-arrow {
+  font-size: 1.1em;
+  transition: transform 0.15s;
+}
+
+.btn-primary:hover .btn-arrow {
+  transform: translateX(3px);
+}

@@ -19,13 +19,13 @@ export class WebsocketService {
       console.log('Authentication successful:', data);
       const {sessionToken} = data as { sessionToken: string };
       if (sessionToken) {
-        sessionStorage.setItem('sessionToken', sessionToken);
+        localStorage.setItem('sessionToken', sessionToken);
       }
     });
   }
 
   authenticate(roomCode: string) {
-    const sessionToken = sessionStorage.getItem('sessionToken');
+    const sessionToken = localStorage.getItem('sessionToken');
     this.socket.emit(SOCKET_EVENTS.AUTH, { roomCode, sessionToken });
   }
 

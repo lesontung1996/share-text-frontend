@@ -14,7 +14,7 @@ export interface RoomMessagesResponse {
   room_id: string
   content: string
   author_token: string
-  author_alias: string
+  alias: string
   created_at: string
   room_code: string
   expires_at: string
