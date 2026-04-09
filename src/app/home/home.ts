@@ -4,9 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { RoomResponse } from '../../types';
 import { Router } from '@angular/router';
 
+import { ZardButtonComponent } from '../shared/components/button/button.component';
+
 @Component({
   selector: 'app-home',
-  imports: [FormsModule],
+  imports: [FormsModule, ZardButtonComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

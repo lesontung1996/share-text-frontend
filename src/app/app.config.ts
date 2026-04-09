@@ -9,6 +9,8 @@ import { SocketIoConfig, provideSocketIo } from 'ngx-socket-io';
 
 import { routes } from './app.routes';
 import { addTokensInterceptor } from './token-http.interceptor';
+import { provideZard } from '@/shared/core/provider/providezard';
+
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -18,5 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideSocketIo(config),
     provideHttpClient(withInterceptors([addTokensInterceptor])),
+    provideZard(),
   ],
 };
