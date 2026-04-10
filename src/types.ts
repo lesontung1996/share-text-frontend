@@ -1,12 +1,12 @@
 export interface RoomResponse {
-    id: string | null;
-    room_code: string;
-    initial_text: string;
-    creator_token: string;
-    expires_at: string | null;
-    created_at: string | null;
-    max_participants: number;
-    is_active: boolean | null;
+  id: string | null;
+  room_code: string;
+  initial_text: string;
+  creator_token: string;
+  expires_at: string | null;
+  created_at: string | null;
+  max_participants: number;
+  is_active: boolean | null;
 }
 
 export interface RoomMessagesResponse {

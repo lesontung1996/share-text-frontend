@@ -1,93 +1,51 @@
-<div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+<div class="container max-w-screen-md mx-auto px-4 py-8">
 
   <!-- Room URL Banner -->
-  <div class="flex items-center justify-between gap-4 mt-4 mx-[1.4rem] py-[0.625rem] pr-[0.625rem] pl-4 bg-surface-high rounded-xl shrink-0">
-    <div class="flex items-center gap-2 min-w-0">
-      <span class="text-primary text-sm shrink-0" aria-hidden="true">⬡</span>
-      <span class="text-[0.8125rem] text-on-surface-variant whitespace-nowrap overflow-hidden text-ellipsis">{{ roomUrl }}</span>
-    </div>
-    <button
-      class="btn btn-primary btn-sm shrink-0"
-      [class.btn-copied]="urlCopied()"
-      (click)="copyRoomUrl()"
-      aria-label="Copy room URL"
-    >
-      @if (urlCopied()) {
-        <span>✓ Copied</span>
-      } @else {
-        <span>Copy URL</span>
-      }
+  <div class="flex flex-col gap-4 items-center justify-center">
+    <button z-button zType="outline" zSize="lg" class="px-4" (click)="copyRoomUrl()">
+      <span class="sr-only">Copy URL</span>
+      <ng-icon name="lucideLink" />
+      {{ roomUrl }}
     </button>
+    <qrcode [qrdata]="roomUrl" [width]="100" elementType="svg" class="border rounded-md overflow-hidden"></qrcode>
   </div>
 
   <!-- Message List -->
-  <div class="message-list flex-1 overflow-y-auto py-[1.4rem] px-[1.4rem] flex flex-col gap-4 scroll-smooth">
+  <div class="overflow-y-auto space-y-4 scroll-smooth">
     @for (message of messages(); track $index) {
-      <div class="flex" [class.justify-end]="isMyMessage(message)" [class.justify-start]="!isMyMessage(message)">
-        <div
-          class="group relative flex flex-col gap-1 pt-4 pr-4 pb-2 pl-4 max-w-[min(72%,520px)]"
-          [class]="isMyMessage(message)
-            ? 'bg-gradient-to-br from-primary to-primary-container rounded-xl rounded-br-lg'
-            : 'bg-surface-high rounded-xl rounded-bl-lg'"
-        >
-          <div class="flex items-baseline gap-2">
-            <span
-              class="text-xs font-semibold uppercase tracking-[0.05em]"
-              [class.text-primary]="!isMyMessage(message)"
-              [class.text-on-primary-muted]="isMyMessage(message)"
-            >{{ message.alias }}</span>
-            <span
-              class="text-[0.6875rem]"
-              [class.text-on-surface-variant]="!isMyMessage(message)"
-              [class.text-on-primary-faded]="isMyMessage(message)"
-            >{{ message.created_at | date:'HH:mm' }}</span>
-          </div>
-          <p
-            class="m-0 text-[0.9375rem] leading-[1.5] break-words"
-            [class.text-on-surface]="!isMyMessage(message)"
-            [class.text-on-primary]="isMyMessage(message)"
-          >{{ message.content }}</p>
-          <button
-            class="btn btn-ghost btn-sm self-end uppercase tracking-[0.04em] opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-            [class.btn-copied]="copiedIndex() === $index"
-            [class.!text-on-primary-muted]="isMyMessage(message) && copiedIndex() !== $index"
-            [class.!text-on-primary]="isMyMessage(message) && copiedIndex() === $index"
-            (click)="copyMessage(message.content, $index)"
-            aria-label="Copy message"
-          >
-            @if (copiedIndex() === $index) {
-              ✓ Copied
-            } @else {
-              Copy
-            }
-          </button>
+    <div class="flex" [class.justify-end]="isMyMessage(message)" [class.justify-start]="!isMyMessage(message)">
+      <div class="group relative flex flex-col gap-1 p-4 max-w-[min(72%,520px)] rounded-xl" [class]="isMyMessage(message)
+            ? 'bg-brand-600 text-white'
+            : 'bg-gray-100 dark:bg-muted'">
+        <div class="flex items-baseline gap-2">
+          <span class="text-xs font-semibold uppercase tracking-[0.05em]" [class.text-primary]="!isMyMessage(message)"
+            [class.text-on-primary-muted]="isMyMessage(message)">{{ message.alias }}</span>
+          <span class="text-[0.6875rem]" [class.text-on-surface-variant]="!isMyMessage(message)"
+            [class.text-on-primary-faded]="isMyMessage(message)">{{ message.created_at | date:'HH:mm' }}</span>
         </div>
+        <p class="" [class.text-on-surface]="!isMyMessage(message)" [class.text-on-primary]="isMyMessage(message)">{{
+          message.content }}
+          <button z-button zType="ghost" (click)="copyMessage(message.content, $index)" aria-label="Copy message">
+            <ng-icon name="lucideCopy" class="text-[0.8125rem]" />
+          </button>
+        </p>
       </div>
+    </div>
     }
 
     @if (messages().length === 0) {
-      <div class="flex-1 flex flex-col items-center justify-center gap-4 text-on-surface-variant p-11 text-center">
-        <span class="text-[2.5rem] opacity-30" aria-hidden="true">◈</span>
-        <p class="m-0 text-[0.9375rem] leading-relaxed">No messages yet. Be the first to say something.</p>
-      </div>
+    <div class="flex-1 flex flex-col items-center justify-center gap-4 text-on-surface-variant p-11 text-center">
+      <p class="m-0 text-[0.9375rem] leading-relaxed">No messages yet. Be the first to say something.</p>
+    </div>
     }
   </div>
 
   <!-- Composer -->
-  <div class="flex items-end gap-3 py-4 px-[1.4rem] pb-[1.4rem] bg-[color-mix(in_srgb,var(--color-surface-low)_80%,transparent)] backdrop-blur-[12px] shrink-0">
-    <textarea
-      class="flex-1 bg-surface-high border-none rounded-xl py-3 px-[1.4rem] font-[inherit] text-[0.9375rem] leading-[1.5] text-on-surface resize-none outline-none max-h-[160px] overflow-y-auto transition-shadow duration-200 focus:shadow-focus placeholder:text-on-surface-variant"
-      [(ngModel)]="textInput"
-      placeholder="Type a message… (Enter to send, Shift+Enter for newline)"
-      rows="1"
-      (keydown)="handleComposerKeydown($event)"
-    ></textarea>
-    <button
-      class="btn btn-primary hover:enabled:opacity-[0.88] hover:enabled:-translate-y-px active:enabled:translate-y-0 disabled:opacity-40 disabled:cursor-not-allowed"
-      (click)="newMessage()"
-      [disabled]="!textInput.trim()"
-      aria-label="Send message"
-    >
+  <div class="space-y-2">
+    <textarea z-input class="" [(ngModel)]="textInput"
+      placeholder="Type a message… (Enter to send, Shift+Enter for newline)" rows="1"
+      (keydown)="handleComposerKeydown($event)"></textarea>
+    <button z-button (click)="newMessage()" [disabled]="!textInput.trim()" aria-label="Send message">
       Send
     </button>
   </div>

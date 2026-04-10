@@ -3,10 +3,11 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from './theme.service';
 import { HttpClient } from '@angular/common/http';
+import { ZardToastComponent } from '@/shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, FormsModule],
+  imports: [RouterOutlet, RouterLink, FormsModule, ZardToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

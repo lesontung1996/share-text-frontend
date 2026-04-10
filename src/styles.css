@@ -2,10 +2,21 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.theme-dark *));
 
 
 :root {
+  --brand-50: #f0fdf5;
+  --brand-100: #dcfce9;
+  --brand-200: #bcf6d5;
+  --brand-300: #87eeb4;
+  --brand-400: #4cdc8b;
+  --brand-500: #24c36a;
+  --brand-600: #19aa59;
+  --brand-700: #167f45;
+  --brand-800: #17643a;
+  --brand-900: #155232;
+  --brand-950: #052e19;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -40,7 +51,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
+.theme-dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -76,17 +87,17 @@
 
 
 @theme inline {
-  --color-brand-50: #f0fdf5;
-  --color-brand-100: #dcfce9;
-  --color-brand-200: #bcf6d5;
-  --color-brand-300: #87eeb4;
-  --color-brand-400: #4cdc8b;
-  --color-brand-500: #24c36a;
-  --color-brand-600: #19aa59;
-  --color-brand-700: #167f45;
-  --color-brand-800: #17643a;
-  --color-brand-900: #155232;
-  --color-brand-950: #052e19;
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -130,6 +141,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -142,7 +154,8 @@
 
   input[type="number"] {
     -moz-appearance: textfield;
-    appearance: textfield; /* Added for general compatibility */
+    appearance: textfield;
+    /* Added for general compatibility */
   }
 }
 
@@ -160,4 +173,14 @@
 ::-webkit-scrollbar-track {
   border-radius: 5px;
   background: var(--muted);
+}
+
+/* Utilities */
+.text-brand {
+  @apply text-brand-700 dark:text-brand-500;
+}
+
+/* Overrides */
+ngx-sonner-icon[type="success"] {
+  @apply text-brand-700 dark:text-brand-500;
 }

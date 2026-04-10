@@ -3,14 +3,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RoomResponse } from '../../types';
 import { Router } from '@angular/router';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideShare } from '@ng-icons/lucide';
 
 import { ZardButtonComponent } from '../shared/components/button/button.component';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, ZardButtonComponent],
+  imports: [FormsModule, ZardButtonComponent, NgIcon],
   templateUrl: './home.html',
   styleUrl: './home.css',
+  viewProviders: [provideIcons({ lucideShare })],
 })
 export class Home {
   private http = inject(HttpClient);

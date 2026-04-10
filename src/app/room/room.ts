@@ -4,20 +4,25 @@ import { ActivatedRoute } from '@angular/router';
 import { RoomMessagesResponse } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideLink, lucideCopy } from '@ng-icons/lucide';
+import { ZardButtonComponent } from '../shared/components/button/button.component';
+import { ZardInputDirective } from '../shared/components/input/input.directive';
+import { toast } from 'ngx-sonner';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-room',
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective],
   templateUrl: './room.html',
   styleUrl: './room.css',
+  viewProviders: [provideIcons({ lucideLink, lucideCopy })],
 })
 export class Room implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   messages = signal<RoomMessagesResponse[]>([]);
   roomCode = signal<string>('');
   textInput: string = '';
-  copiedIndex = signal<number | null>(null);
-  urlCopied = signal<boolean>(false);
 
   constructor(private websocketService: WebsocketService) {
     this.activatedRoute.params.subscribe((params) => {
@@ -50,16 +55,18 @@ export class Room implements OnInit {
 
   copyMessage(content: string, index: number) {
     navigator.clipboard.writeText(content).then(() => {
-      this.copiedIndex.set(index);
-      setTimeout(() => this.copiedIndex.set(null), 2000);
+      toast.success('Message copied to clipboard', {
+        position: 'top-center',
+      });
     });
   }
 
   copyRoomUrl() {
     const url = `${window.location.origin}/room/${this.roomCode()}`;
     navigator.clipboard.writeText(url).then(() => {
-      this.urlCopied.set(true);
-      setTimeout(() => this.urlCopied.set(false), 2000);
+      toast.success('URL copied to clipboard', {
+        position: 'top-center',
+      });
     });
   }
 

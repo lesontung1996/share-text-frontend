@@ -1,30 +1,24 @@
-<div class="relative flex-1 flex items-center justify-center py-11 px-8 overflow-hidden">
-  <div class="relative z-[1] w-full max-w-[680px] flex flex-col gap-11">
+<div class="">
+  <div class="container mx-auto px-4 py-12 max-w-screen-md space-y-12">
 
     <div class="flex flex-col gap-2 text-center">
       <h1 class="font-display text-[clamp(2rem,5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] text-on-surface">
-        Share Text <span class="text-brand-700">Instantly</span>
+        Share Text <span class="text-brand">Instantly</span>
       </h1>
       <p class="m-0 text-base leading-relaxed text-on-surface-variant">
-        A free online real-time text sharing tool. Paste below to start sharing! Others can join and collaborate - no account required.
+        A free online real-time text sharing tool. Paste below to start sharing! Others can join and collaborate - no
+        account required.
       </p>
     </div>
 
-    <div class="flex flex-col gap-[1.4rem] bg-surface-low rounded-xl p-8 shadow-ambient">
-      <textarea
-        class="w-full bg-surface-highest border-none rounded-xl p-8 font-[inherit] text-base leading-relaxed text-on-surface resize-y min-h-[180px] outline-none transition-shadow duration-200 focus:shadow-focus placeholder:text-on-surface-variant"
-        name="text"
-        id="text"
-        [(ngModel)]="textInput"
-        placeholder="Type your message here…"
-        rows="6"
-      ></textarea>
+    <div class="flex flex-col gap-6">
+      <textarea class="w-full border rounded-xl p-8 resize-y min-h-[180px]" name="text" id="text"
+        [(ngModel)]="textInput" placeholder="Type your message here…" rows="6"></textarea>
 
       <div class="flex justify-end">
-        <button type="button" z-button zType="outline">Button</button>
-        <button class="btn btn-primary group" (click)="createRoom()">
+        <button z-button class="btn btn-primary group" zType="brand" (click)="createRoom()">
           Create Room
-          <span class="text-[1.1em] transition-transform duration-150 group-hover:translate-x-[3px]" aria-hidden="true">→</span>
+          <ng-icon name="lucideShare" />
         </button>
       </div>
     </div>

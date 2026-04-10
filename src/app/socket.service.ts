@@ -17,7 +17,7 @@ export class WebsocketService {
   constructor(private socket: Socket) {
     this.socket.fromEvent(SOCKET_EVENTS.AUTH).subscribe((data) => {
       console.log('Authentication successful:', data);
-      const {sessionToken} = data as { sessionToken: string };
+      const { sessionToken } = data as { sessionToken: string };
       if (sessionToken) {
         localStorage.setItem('sessionToken', sessionToken);
       }

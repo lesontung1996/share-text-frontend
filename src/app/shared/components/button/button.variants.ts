@@ -8,7 +8,7 @@ export const buttonVariants = cva(
     'aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-lg border border-transparent bg-clip-padding',
     "text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center",
     'justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none',
-    'shrink-0 [&_svg]:shrink-0 outline-none group/button select-none [&_ng-icon]:flex [&_ng-icon]:items-center',
+    'shrink-0 [&_svg]:shrink-0 outline-none group/button select-none [&_ng-icon]:flex [&_ng-icon]:items-center cursor-pointer',
   ),
   {
     variants: {
@@ -23,6 +23,7 @@ export const buttonVariants = cva(
         ghost:
           'hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
+        brand: 'bg-brand-700 text-white hover:bg-brand-700/80 dark:bg-brand-600 dark:hover:bg-brand-600/80',
       },
       zSize: {
         default: 'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
