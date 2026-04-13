@@ -3,7 +3,6 @@ import { WebsocketService, SOCKET_EVENTS } from '../socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomMessagesResponse } from '../../types';
 import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideLink, lucideCopy } from '@ng-icons/lucide';
 import { ZardButtonComponent } from '../shared/components/button/button.component';
@@ -13,7 +12,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-room',
-  imports: [FormsModule, DatePipe, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective],
+  imports: [FormsModule, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective],
   templateUrl: './room.html',
   styleUrl: './room.css',
   viewProviders: [provideIcons({ lucideLink, lucideCopy })],

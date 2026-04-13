@@ -1,8 +1,8 @@
 <div class="min-h-dvh grid grid-rows-[auto_1fr]">
   <header
-    class="sticky top-0 z-10 flex justify-between items-center py-[0.875rem] px-8 bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)] backdrop-blur-[24px] [-webkit-backdrop-filter:blur(24px)]">
+    class="sticky top-0 z-10 flex justify-between items-center py-4 px-8 backdrop-blur-[24px] [-webkit-backdrop-filter:blur(24px)]">
     <a routerLink="/" class="grid gap-[0.15rem]">
-      <h2 class="font-display tracking-[-0.02em] text-[1.125rem] font-bold m-0 text-on-surface">Share Text</h2>
+      <h2 class="">Share Text</h2>
     </a>
 
     <div class="flex items-center gap-1 bg-surface-low rounded-full py-1 pl-4 pr-1">
@@ -13,16 +13,14 @@
     </div>
 
     <div class="flex items-center gap-2">
-      <label class="text-[0.8125rem] text-on-surface-variant" for="themeModeSelect">Theme</label>
-      <select id="themeModeSelect"
-        class="appearance-none bg-surface-low text-on-surface border-0 rounded-xl py-2 pr-[2.2rem] pl-[0.9rem] font-[inherit] text-sm cursor-pointer shadow-ambient focus-visible:outline-none focus-visible:shadow-[var(--shadow-ambient),_var(--shadow-focus)]"
-        [value]="theme.themeMode()" (change)="setThemeModeFromSelect($event)" aria-label="Theme mode">
+      <label class="" for="themeModeSelect">Theme</label>
+      <select id="themeModeSelect" class="appearance-none rounded-xl p-2" [value]="theme.themeMode()"
+        (change)="setThemeModeFromSelect($event)" aria-label="Theme mode">
         <option value="system">System</option>
         <option value="light">Light</option>
         <option value="dark">Dark</option>
       </select>
-      <span class="relative -ml-[1.9rem] pointer-events-none text-on-surface-variant text-sm"
-        aria-hidden="true">▾</span>
+      <span class="" aria-hidden="true">▾</span>
     </div>
   </header>
 
