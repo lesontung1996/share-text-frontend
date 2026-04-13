@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, effect } from '@angular/core';
 import { WebsocketService, SOCKET_EVENTS } from '../socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomMessagesResponse } from '../../types';
@@ -9,16 +9,22 @@ import { ZardButtonComponent } from '../shared/components/button/button.componen
 import { ZardInputDirective } from '../shared/components/input/input.directive';
 import { toast } from 'ngx-sonner';
 import { QRCodeComponent } from 'angularx-qrcode';
+import { HighlightAuto } from 'ngx-highlightjs';
+import { HighlightLoader } from 'ngx-highlightjs';
+import hljs from 'highlight.js';
+import { ThemeService } from '../theme.service';
 
 @Component({
   selector: 'app-room',
-  imports: [FormsModule, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective],
+  imports: [FormsModule, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective, HighlightAuto],
   templateUrl: './room.html',
   styleUrl: './room.css',
   viewProviders: [provideIcons({ lucideLink, lucideCopy })],
 })
 export class Room implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
+  private highlightLoader = inject(HighlightLoader);
+  private themeService = inject(ThemeService);
   messages = signal<RoomMessagesResponse[]>([]);
   roomCode = signal<string>('');
   textInput: string = '';
@@ -40,6 +46,12 @@ export class Room implements OnInit {
       this.messages.update((current) => [...current, messages]);
     });
     this.websocketService.sendMessage(SOCKET_EVENTS.ROOM_JOINED, { room_code: this.roomCode() });
+
+    // effect(() => {
+    //   const theme = this.themeService.resolvedTheme();
+    //   const themePath = theme === 'dark' ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css' : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+    //   this.highlightLoader.setTheme(themePath);
+    // });
   }
 
   newMessage() {
@@ -78,5 +90,11 @@ export class Room implements OnInit {
       event.preventDefault();
       this.newMessage();
     }
+  }
+
+  isCodeMessage(content: string): boolean {
+    const result = hljs.highlightAuto(content);
+    console.log(content, result);
+    return result.relevance > 10; // Adjust the relevance threshold as needed
   }
 }

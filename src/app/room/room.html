@@ -14,13 +14,23 @@
   <div class="overflow-y-auto space-y-4 scroll-smooth">
     @for (message of messages(); track $index) {
     <div class="flex" [class.justify-end]="isMyMessage(message)">
+      @if (isCodeMessage(message.content)) {
+      <div class="relative p-4 rounded-md cursor-pointer">
+        <pre class="whitespace-pre-wrap"><code [highlightAuto]="message.content"></code></pre>
+        <button (click)="copyMessage(message.content, $index)" aria-label="Copy message"
+          class="absolute right-5 bottom-5">
+          <ng-icon name="lucideCopy" />
+        </button>
+      </div>
+      } @else {
       <button (click)="copyMessage(message.content, $index)" aria-label="Copy message"
         class="relative flex items-center gap-2 p-4 pr-10 w-full text-left rounded-md cursor-pointer" [class]="isMyMessage(message)
-            ? 'bg-brand-600 text-white'
-            : 'bg-gray-100 dark:bg-muted'">
+              ? 'bg-brand-600 text-white'
+              : 'bg-gray-100 dark:bg-muted'">
         {{ message.content }}
         <ng-icon name="lucideCopy" class="absolute right-5 bottom-5" />
       </button>
+      }
     </div>
     }
 

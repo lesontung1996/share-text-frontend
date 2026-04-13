@@ -10,6 +10,7 @@ import { SocketIoConfig, provideSocketIo } from 'ngx-socket-io';
 import { routes } from './app.routes';
 import { addTokensInterceptor } from './token-http.interceptor';
 import { provideZard } from '@/shared/core/provider/providezard';
+import { provideHighlightOptions } from 'ngx-highlightjs';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -21,5 +22,9 @@ export const appConfig: ApplicationConfig = {
     provideSocketIo(config),
     provideHttpClient(withInterceptors([addTokensInterceptor])),
     provideZard(),
+    provideHighlightOptions({
+      fullLibraryLoader: () => import('highlight.js'),
+      themePath: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css',
+    }),
   ],
 };
