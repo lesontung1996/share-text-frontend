@@ -13,9 +13,19 @@
   <!-- Message List -->
   <div class="overflow-y-auto space-y-4 scroll-smooth">
     @for (message of messages(); track $index) {
-    <div class="flex" [class.justify-end]="isMyMessage(message)">
-      @if (isCodeMessage(message.content)) {
-      <div class="relative p-4 rounded-md cursor-pointer">
+    <div class="flex flex-col gap-2">
+      <div class="text-xs text-muted-foreground">
+        {{ message.created_at | date:'shortTime' }}
+      </div>
+      <div class="flex items-center gap-2">
+        <label class="text-sm">Display as:</label>
+        <z-select [(ngModel)]="displayTypes()[message.id]" zSize="sm">
+          <z-select-item zValue="text">Plain Text</z-select-item>
+          <z-select-item zValue="code">Syntax Highlight</z-select-item>
+        </z-select>
+      </div>
+      @if (displayTypes()[message.id] === 'code') {
+      <div class="relative w-full rounded-md overflow-hidden cursor-pointer bg-gray-100 dark:bg-muted">
         <pre class="whitespace-pre-wrap"><code [highlightAuto]="message.content"></code></pre>
         <button (click)="copyMessage(message.content, $index)" aria-label="Copy message"
           class="absolute right-5 bottom-5">
@@ -24,9 +34,7 @@
       </div>
       } @else {
       <button (click)="copyMessage(message.content, $index)" aria-label="Copy message"
-        class="relative flex items-center gap-2 p-4 pr-10 w-full text-left rounded-md cursor-pointer" [class]="isMyMessage(message)
-              ? 'bg-brand-600 text-white'
-              : 'bg-gray-100 dark:bg-muted'">
+        class="relative flex items-center gap-2 p-4 pr-10 bg-gray-100 dark:bg-muted w-full text-left rounded-md cursor-pointer">
         {{ message.content }}
         <ng-icon name="lucideCopy" class="absolute right-5 bottom-5" />
       </button>
@@ -42,12 +50,13 @@
   </div>
 
   <!-- Composer -->
-  <div class="space-y-2">
+  <div class="flex flex-col gap-2">
     <textarea z-input class="" [(ngModel)]="textInput"
       placeholder="Type a message… (Enter to send, Shift+Enter for newline)" rows="1"
       (keydown)="handleComposerKeydown($event)"></textarea>
-    <button z-button (click)="newMessage()" [disabled]="!textInput.trim()" aria-label="Send message">
+    <button z-button zType="brand" (click)="newMessage()" class="self-end">
       Send
+      <ng-icon name="lucideShare" />
     </button>
   </div>
 

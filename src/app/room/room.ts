@@ -1,25 +1,26 @@
-import { Component, OnInit, signal, inject, effect } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { WebsocketService, SOCKET_EVENTS } from '../socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomMessagesResponse } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideLink, lucideCopy } from '@ng-icons/lucide';
+import { lucideLink, lucideCopy, lucideShare } from '@ng-icons/lucide';
 import { ZardButtonComponent } from '../shared/components/button/button.component';
 import { ZardInputDirective } from '../shared/components/input/input.directive';
+import { ZardSelectImports } from '../shared/components/select/select.imports';
 import { toast } from 'ngx-sonner';
 import { QRCodeComponent } from 'angularx-qrcode';
-import { HighlightAuto } from 'ngx-highlightjs';
-import { HighlightLoader } from 'ngx-highlightjs';
+import { HighlightAuto, HighlightLoader } from 'ngx-highlightjs';
 import hljs from 'highlight.js';
 import { ThemeService } from '../theme.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-room',
-  imports: [FormsModule, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective, HighlightAuto],
+  imports: [FormsModule, ZardButtonComponent, NgIcon, QRCodeComponent, ZardInputDirective, HighlightAuto, DatePipe, ...ZardSelectImports],
   templateUrl: './room.html',
   styleUrl: './room.css',
-  viewProviders: [provideIcons({ lucideLink, lucideCopy })],
+  viewProviders: [provideIcons({ lucideLink, lucideCopy, lucideShare })],
 })
 export class Room implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
@@ -28,6 +29,7 @@ export class Room implements OnInit {
   messages = signal<RoomMessagesResponse[]>([]);
   roomCode = signal<string>('');
   textInput: string = '';
+  displayTypes = signal<Record<string, 'text' | 'code'>>({});
 
   constructor(private websocketService: WebsocketService) {
     this.activatedRoute.params.subscribe((params) => {
@@ -40,10 +42,12 @@ export class Room implements OnInit {
     this.websocketService.getMessages<RoomMessagesResponse[]>(SOCKET_EVENTS.ROOM_JOINED).subscribe((messages) => {
       console.log(messages);
       this.messages.set(messages);
+      this.displayTypes.set(messages.reduce((acc, msg) => ({ ...acc, [msg.id]: 'text' }), {}));
     });
-    this.websocketService.getMessages<RoomMessagesResponse>(SOCKET_EVENTS.MESSAGE_NEW).subscribe((messages) => {
-      console.log(messages);
-      this.messages.update((current) => [...current, messages]);
+    this.websocketService.getMessages<RoomMessagesResponse>(SOCKET_EVENTS.MESSAGE_NEW).subscribe((message) => {
+      console.log(message);
+      this.messages.update((current) => [...current, message]);
+      this.displayTypes.update((types) => ({ ...types, [message.id]: 'text' }));
     });
     this.websocketService.sendMessage(SOCKET_EVENTS.ROOM_JOINED, { room_code: this.roomCode() });
 
@@ -58,10 +62,6 @@ export class Room implements OnInit {
     if (!this.textInput.trim()) return;
     this.websocketService.sendMessage(SOCKET_EVENTS.MESSAGE_NEW, { room_code: this.roomCode(), content: this.textInput });
     this.textInput = '';
-  }
-
-  isMyMessage(msg: RoomMessagesResponse): boolean {
-    return msg.author_token === localStorage.getItem('sessionToken');
   }
 
   copyMessage(content: string, index: number) {
@@ -90,11 +90,5 @@ export class Room implements OnInit {
       event.preventDefault();
       this.newMessage();
     }
-  }
-
-  isCodeMessage(content: string): boolean {
-    const result = hljs.highlightAuto(content);
-    console.log(content, result);
-    return result.relevance > 10; // Adjust the relevance threshold as needed
   }
 }

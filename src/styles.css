@@ -184,3 +184,7 @@
 ngx-sonner-icon[type="success"] {
   @apply text-brand-700 dark:text-brand-500;
 }
+
+code.hljs {
+  background: transparent;
+}

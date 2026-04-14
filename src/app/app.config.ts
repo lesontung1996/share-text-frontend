@@ -24,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideZard(),
     provideHighlightOptions({
       fullLibraryLoader: () => import('highlight.js'),
+      lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
       themePath: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css',
     }),
   ],

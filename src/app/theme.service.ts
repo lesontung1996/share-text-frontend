@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { DestroyRef, Injectable, computed, effect, inject, signal } from '@angular/core';
+import { HighlightLoader } from 'ngx-highlightjs';
 
 export type ThemeMode = 'system' | 'light' | 'dark';
 export type ResolvedTheme = 'light' | 'dark';
@@ -10,6 +11,7 @@ const THEME_MODE_STORAGE_KEY = 'themeMode';
 export class ThemeService {
   readonly themeMode = signal<ThemeMode>('system');
   private readonly prefersDark = signal(false);
+  private hljsLoader: HighlightLoader = inject(HighlightLoader);
 
   readonly resolvedTheme = computed<ResolvedTheme>(() => {
     const mode = this.themeMode();
@@ -42,10 +44,6 @@ export class ThemeService {
     }
 
     effect(() => {
-      window.localStorage.setItem(THEME_MODE_STORAGE_KEY, this.themeMode());
-    });
-
-    effect(() => {
       const html = doc.documentElement;
       const resolved = this.resolvedTheme();
       const mode = this.themeMode();
@@ -53,6 +51,9 @@ export class ThemeService {
       html.classList.toggle('theme-dark', resolved === 'dark');
       html.setAttribute('data-theme', resolved);
       html.setAttribute('data-theme-mode', mode);
+
+      window.localStorage.setItem(THEME_MODE_STORAGE_KEY, mode);
+      this.hljsLoader.setTheme(resolved === 'dark' ? '/styles/highlightjs/vs2015.min.css' : '/styles/highlightjs/vs.min.css');
     });
   }
 
